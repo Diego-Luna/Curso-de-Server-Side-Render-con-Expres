@@ -10,7 +10,7 @@ import { Provider } from "react-redux";
 import { createStore, compose } from "redux";
 import { renderRoutes } from "react-router-config";
 // import { StaticRouter } from "react-router-dom";
-import { StaticRouter } from'react-router-dom';
+import { StaticRouter } from "react-router-dom";
 
 import serverRoutes from "../frontend/routes/serverRoutes";
 import reducer from "../frontend/reducers";
@@ -39,8 +39,8 @@ if (ENV === "development") {
 
 // hacemos una funcion para el renderizado
 
-const setResponse = (html) => {
-  return (` <!DOCTYPE html>
+const setResponse = (html, preloadedState) => {
+  return ` <!DOCTYPE html>
   <html>
     <head>
     <link rel="stylesheet" href="assets/app.css" type="text/css" >
@@ -48,13 +48,15 @@ const setResponse = (html) => {
     </head>
     <body>
       <div id="app">${html}</div>
+      <script>window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, "\\u003c")}</script>
       <script src="assets/app.js" type="text/javascript" ></script>
     </body>
-  </html>`);
+  </html>`;
 };
 
 const renderApp = (req, res) => {
   const store = createStore(reducer, initialState);
+  const preloadedState = store.getState();
   const html = renderToString(
     <Provider store={store}>
       <StaticRouter location={req.url} context={{}}>
@@ -63,7 +65,7 @@ const renderApp = (req, res) => {
     </Provider>
   );
 
-  res.send(setResponse(html));
+  res.send(setResponse(html, preloadedState));
 };
 // hacemos una funcion para el renderizado
 

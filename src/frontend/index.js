@@ -4,12 +4,14 @@ import { Provider } from 'react-redux';
 import { createStore, compose } from 'redux';
 import reducer from './reducers';
 import App from './routes/App';
+
 // para el ssr
 import { createBrowserHistory } from 'history';
 import { Router } from 'react-router'
-import initialState from './initialState'
+// import initialState from './initialState'
+// nos traemos el initialState del servidor
+const preloadedState = window.__PRELOADED_STATE__;
 // para el ssr
-
 
 // para el ssr
 const history = createBrowserHistory();
@@ -17,9 +19,14 @@ const history = createBrowserHistory();
 
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducer, initialState, composeEnhancers());
+const store = createStore(reducer, preloadedState, composeEnhancers());
 
-ReactDOM.render(
+// borramos el preloadedState
+delete window.__PRELOADED_STATE__;
+// borramos el preloadedState
+
+
+ReactDOM.hydrate(
   <Provider store={store}>
     <Router history={history} >
       <App />
