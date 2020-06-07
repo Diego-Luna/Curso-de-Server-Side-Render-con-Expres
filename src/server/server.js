@@ -1,6 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import webpack from "webpack";
+// Para hacer mas seguro el proyecto
+import helmet from 'helmet';
+// Para hacer mas seguro el proyecto
 
 // para el ssr
 import React from "react";
@@ -35,6 +38,12 @@ if (ENV === "development") {
 
   app.use(webpackDevMiddleware(compiler, serverConfig));
   app.use(webpackHotMiddleware(compiler));
+}else{
+  app.use(express.static(`${__dirname}/public`));
+  app.use(helmet());
+  app.use(helmet.permittedCrossDomainPolicies()); 
+  // quitamos la cabecera, para que no seve de adonde se conecta
+  app.disable('x-powered-by');
 }
 
 // hacemos una funcion para el renderizado
@@ -64,6 +73,8 @@ const renderApp = (req, res) => {
       </StaticRouter>
     </Provider>
   );
+
+  res.removeHeader('x-powered-by');
 
   res.send(setResponse(html, preloadedState));
 };
