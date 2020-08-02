@@ -1,0 +1,29 @@
+/////////////////////////////////// iniciando ///////////////////////////////////
+Creamos nuestros paths utils/auth/strategies dentro de server y copiamos ell 
+archivo basic.js
+
+Instalamos las dependencias para que funcione passport
+
+passport-http
+
+axios
+
+passport
+
+@hapi/boom
+
+- npm i passport passport-http @hapi/boom axios
+Instalamos paquetes para el manejo de las cookies y sesiones
+
+express-session
+
+cookie-parser
+
+- npm i cookie-parser express-session
+Instalamos dependencia para poder trabajar con async/await en nuestro proyecto
+
+@babel/polyfill
+
+- npm i @babel/polyfill
+
+/////////////////////////////////// iniciando ///////////////////////////////////
