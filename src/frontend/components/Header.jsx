@@ -13,7 +13,14 @@ const Header = (props) => {
   const hasUser = Object.keys(user).length > 0;
 
   const handleLogout = () => {
+    // vamos a eliminar la información de la cokie
+    document.cookie = 'email=';
+    document.cookie = 'name=';
+    document.cookie = 'id=';
+    document.cookie = 'token=';
     props.logoutRequest({});
+    // lo redireccionamos hacia el login
+    window.location.href = '/login';
   };
   const headerClass = classNames('header', {
     isLogin,
