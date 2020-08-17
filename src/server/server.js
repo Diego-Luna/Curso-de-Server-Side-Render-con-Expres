@@ -1,3 +1,6 @@
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable global-require */
+/* eslint-disable import/order */
 import express from 'express';
 import dotenv from 'dotenv';
 import webpack from 'webpack';
@@ -97,19 +100,18 @@ const renderApp = (req, res) => {
 
 // ponemos las rutas de Passport
 
-app.post("/auth/sign-in", async function (req, res, next) {
+app.post('/auth/sign-in', async function (req, res, next) {
 
   // Obtenemos el atributo rememberMe desde el cuerpo del request
   const { rememberMe } = req.body;
 
-
-  passport.authenticate("basic", function (error, data) {
+  passport.authenticate('basic', function (error, data) {
     try {
       if (error || !data) {
         next(boom.unauthorized());
       }
 
-      req.login(data, { session: false }, async function (error) {
+      req.login(data, { session: false }, async (error) => {
         if (error) {
           next(error);
         }
@@ -123,10 +125,10 @@ app.post("/auth/sign-in", async function (req, res, next) {
 
         // Si el atributo rememberMe es verdadero la expiración será en 30 dias
         // de lo contrario la expiración será en 2 horas
-        res.cookie("token", token, {
+        res.cookie('token', token, {
           httpOnly: !config.dev,
           secure: !config.dev,
-          maxAge: rememberMe ? THIRTY_DAYS_IN_SEC : TWO_HOURS_IN_SEC
+          maxAge: rememberMe ? THIRTY_DAYS_IN_SEC : TWO_HOURS_IN_SEC,
         });
 
         res.status(200).json(user);
@@ -137,24 +139,24 @@ app.post("/auth/sign-in", async function (req, res, next) {
   })(req, res, next);
 });
 
-app.post("/auth/sign-up", async function (req, res, next) {
+app.post('/auth/sign-up', async function (req, res, next) {
   const { body: user } = req;
 
   try {
     const userData = await axios({
       url: `${process.env.API_URL}/api/auth/sign-up`,
-      method: "post",
+      method: 'post',
       data: {
         'email': user.email,
         'name': user.name,
-        'password': user.password
-      }
+        'password': user.password,
+      },
     });
 
     res.status(201).json({
       name: req.body.name,
       email: req.user.email,
-      id: userData.data.id
+      id: userData.data.id,
     });
   } catch (error) {
     next(error);

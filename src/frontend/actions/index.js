@@ -46,9 +46,9 @@ export const registerUser = (payload, redirectUrl) => {
       })
       .catch(
         // si tenemos un error, lo tratamos
-        error => dispatch(setError(error))
-      )
+        error => dispatch(setError(error)),
+      );
   };
 };
 
-export { setFavorite as default }
+export { setFavorite as default };
