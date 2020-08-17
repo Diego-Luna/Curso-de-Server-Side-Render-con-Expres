@@ -90,24 +90,31 @@ const setResponse = (html, preloadedState, manifest) => {
   `);
 };
 
-const renderApp = (req, res) => {
+const renderApp = async (req, res) => {
 
   let initialState;
   // nos traemos de las cookies
-  const { email, name, id } = req.cookies;
+  const { token, email, name, id } = req.cookies;
 
-  // si tenemos nuestro usuarios
-  if (id) {
+  try {
+    let movieList = await axios({
+      url: `${process.env.API_URL}/api/movies`,
+      headers: { Authorization: `Bearer ${token}` },
+      method: 'get',
+    });
+
+    // pasamos los datos que regresa axios
+    movieList = movieList.data.data;
+
     initialState = {
       user: {
         email, name, id,
       },
       myList: [],
-      trends: [],
-      originals: [],
+      trends: movieList.filter(movie => movie.contentRating === 'PG' && movie._id),
+      originals: movieList.filter(movie => movie.contentRating === 'G' && movie._id),
     };
-  } else {
-    // lo que hacemos cuando no hay un usuario, activo
+  } catch (error) {
     initialState = {
       user: {},
       myList: [],
