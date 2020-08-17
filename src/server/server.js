@@ -155,7 +155,7 @@ app.post('/auth/sign-up', async function (req, res, next) {
 
     res.status(201).json({
       name: req.body.name,
-      email: req.user.email,
+      email: req.body.email,
       id: userData.data.id,
     });
   } catch (error) {

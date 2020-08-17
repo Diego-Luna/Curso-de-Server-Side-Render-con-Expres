@@ -41,7 +41,7 @@ const Register = (props) => {
             <input
               name='email'
               className='input'
-              type='text'
+              type='email'
               placeholder='Correo'
               onChange={handleInput}
             />

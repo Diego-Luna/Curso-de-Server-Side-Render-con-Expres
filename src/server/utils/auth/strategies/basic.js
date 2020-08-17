@@ -1,14 +1,13 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable prefer-arrow-callback */
-import dotenv from 'dotenv';
-
 const passport = require('passport');
 const { BasicStrategy } = require('passport-http');
 const boom = require('@hapi/boom');
 const axios = require('axios');
 // const { config } = require('../../../config/index');
+require('dotenv').config();
 
-dotenv.config();
+// dotenv.config();
 
 const { API_URL, API_KEY_TOKEN } = process.env;
 
