@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { setFavorite, deleteFavorite } from '../actions';
+import { setFavorite, setFavoriteBackend, deleteFavorite, deleteFavoriteBackend } from '../actions';
 import '../assets/styles/components/CarouselItem.scss';
 import playIcon from '../assets/static/play-icon.png';
 import plusIcon from '../assets/static/plus-icon.png';
@@ -14,9 +14,13 @@ const CarouselItem = (props) => {
     props.setFavorite({
       id, cover, title, year, contentRating, duration,
     });
+    props.setFavoriteBackend({
+      id, cover, title, year, contentRating, duration,
+    });
   };
   const handleDeleteFavorite = (itemId) => {
     props.deleteFavorite(itemId);
+    props.deleteFavoriteBackend(itemId);
   };
   return (
     <div className='carousel-item'>
@@ -65,7 +69,9 @@ CarouselItem.propTypes = {
 
 const mapDispatchToProps = {
   setFavorite,
+  setFavoriteBackend,
   deleteFavorite,
+  deleteFavoriteBackend,
 };
 
 export default connect(null, mapDispatchToProps)(CarouselItem);

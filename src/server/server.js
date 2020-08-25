@@ -1,3 +1,6 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable prefer-const */
+/* eslint-disable no-unused-vars */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable global-require */
 /* eslint-disable import/order */
@@ -103,8 +106,22 @@ const renderApp = async (req, res) => {
       method: 'get',
     });
 
+    let userMovieRelations = await axios({
+      url: `${process.env.API_URL}/api/user-movies/sign-in`,
+      headers: { Authorization: `Bearer ${token}` },
+      method: 'get',
+    });
+
     // pasamos los datos que regresa axios
     movieList = movieList.data.data;
+    // userMovieRelations = userMovieRelations.data.data;
+
+    // const userMovieList = movieList.filter((movie) => {
+    //   let isUserMovie = userMovieRelations.some(
+    //     userHas => userHas.movieId == movie._id,
+    //   );
+    //   return isUserMovie;
+    // });
 
     initialState = {
       user: {
@@ -170,40 +187,6 @@ app.post('/auth/sign-in', async function (req, res, next) {
   })(req, res, next);
 });
 
-// app.post('/auth/sign-in', async function (req, res, next) {
-
-// Obtenemos el atributo rememberMe desde el cuerpo del request
-// const { rememberMe } = req.body;
-
-// passport.authenticate('basic', function (error, data) {
-//   try {
-//     if (error || !data) {
-//       next(boom.unauthorized());
-//     }
-
-//     req.login(data, { session: false }, async (err) => {
-//       if (err) {
-//         next(err);
-//       }
-
-//       const { token, ...user } = data;
-
-// Si el atributo rememberMe es verdadero la expiración será en 30 dias
-// de lo contrario la expiración será en 2 horas
-// res.cookie('token', token, {
-//   httpOnly: !(ENV === 'development'),
-//   secure: !(ENV === 'development'),
-//   maxAge: rememberMe ? THIRTY_DAYS_IN_SEC : TWO_HOURS_IN_SEC,
-// });
-
-//         res.status(200).json(user);
-//       });
-//     } catch (err) {
-//       next(err);
-//     }
-//   })(req, res, next);
-// });
-
 app.post('/auth/sign-up', async function (req, res, next) {
   const { body: user } = req;
 
@@ -229,6 +212,26 @@ app.post('/auth/sign-up', async function (req, res, next) {
 });
 
 // ponemos las rutas de Passport
+
+// le podemos las rutas para la seccion de videos favoritos
+app.post('/user-movies/:userMovieId', async function (req, res, next) {
+  const { userMovieId } = req.params;
+  const { token } = req.cookies;
+
+  try {
+    const response = await axios({
+      url: `${process.env.API_URL}/api/user-movies/${userMovieId}`,
+      method: 'post',
+      headers: { Authorization: `Bearer-Token ${token}` },
+      data: { userMovieId },
+    });
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error('Fetch to API (user-movies/:userMovieId) failed.');
+    next(error);
+  }
+});
 
 app.get('*', renderApp);
 
