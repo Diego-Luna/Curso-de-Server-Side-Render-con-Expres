@@ -103,28 +103,61 @@ export const loginUser = ({ email, password }, redirectUrl) => {
 // };
 
 export const setFavoriteBackend = (payload) => {
-  const { id } = payload;
+  const { _id } = payload;
   return (dispatch) => {
     axios({
-      url: `/user-movies/${id}`,
+      url: '/user-movies',
       method: 'post',
       data: {
-        movieId: id,
-        token: document.cookie.token,
+        movieId: _id,
       },
     })
+      .then(console.log('funciona en action'))
       // .then(dispatch(setFavoriteRequest(payload)))
       .catch(err => dispatch(setError(err)));
   };
+
+  // funciona
+  // return (dispatch) => {
+  //   axios({
+  //     url: '/user-movies',
+  //     method: 'POST',
+  //     data: {
+  //       movieId: payload._id,
+  //     },
+  //   })
+  //     .then(() => {
+  //       console.log('todo funcioan el los actions');
+  //     })
+  //     .catch(err => dispatch(setError(err)));
+  // };
+
+  // no se
+  // const { id } = payload;
+  // return (dispatch) => {
+  //   axios({
+  //     url: `/user-movies/${id}`,
+  //     method: 'post',
+  //     data: {
+  //       movieId: id,
+  //       token: document.cookie.token,
+  //     },
+  //   })
+  //     // .then(dispatch(setFavoriteRequest(payload)))
+  //     .catch(err => dispatch(setError(err)));
+  // };
 };
 
 export const deleteFavoriteBackend = (_id) => {
+
+  console.log(_id);
+
   return (dispatch) => {
     axios({
-      url: `/user-movies/${_id}`,
+      url: `/user-movies-delete/${_id}`,
       method: 'post',
     })
-      // .then(dispatch(deleteFavoriteRequest(_id)))
+      .then(console.log('funcionao el boorar en actions'))
       .catch(err => dispatch(setError(err)));
   };
 };

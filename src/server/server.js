@@ -106,11 +106,11 @@ const renderApp = async (req, res) => {
       method: 'get',
     });
 
-    let userMovieRelations = await axios({
-      url: `${process.env.API_URL}/api/user-movies/sign-in`,
-      headers: { Authorization: `Bearer ${token}` },
-      method: 'get',
-    });
+    // let userMovieRelations = await axios({
+    //   url: `${process.env.API_URL}/api/user-movies/sign-in`,
+    //   headers: { Authorization: `Bearer ${token}` },
+    //   method: 'get',
+    // });
 
     // pasamos los datos que regresa axios
     movieList = movieList.data.data;
@@ -214,16 +214,42 @@ app.post('/auth/sign-up', async function (req, res, next) {
 // ponemos las rutas de Passport
 
 // le podemos las rutas para la seccion de videos favoritos
-app.post('/user-movies/:userMovieId', async function (req, res, next) {
+
+app.post('/user-movies', async (req, res, next) => {
+  const { body: userMovie } = req;
+  const { id, token } = req.cookies;
+  try {
+    const response = await axios({
+      url: `${process.env.API_URL}/api/user-movies`,
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        userId: id,
+        movieId: userMovie.movieId,
+      },
+    });
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// prueva para 2
+app.post('/user-movies-delete/:userMovieId', async function (req, res, next) {
   const { userMovieId } = req.params;
-  const { token } = req.cookies;
+  const { id: userId, token } = req.cookies;
 
   try {
     const response = await axios({
       url: `${process.env.API_URL}/api/user-movies/${userMovieId}`,
-      method: 'post',
-      headers: { Authorization: `Bearer-Token ${token}` },
-      data: { userMovieId },
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: { userId },
     });
 
     res.status(200).json(response.data);
