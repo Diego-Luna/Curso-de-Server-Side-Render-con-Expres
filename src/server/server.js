@@ -106,28 +106,32 @@ const renderApp = async (req, res) => {
       method: 'get',
     });
 
-    // let userMovieRelations = await axios({
-    //   url: `${process.env.API_URL}/api/user-movies/sign-in`,
-    //   headers: { Authorization: `Bearer ${token}` },
-    //   method: 'get',
-    // });
-
     // pasamos los datos que regresa axios
     movieList = movieList.data.data;
     // userMovieRelations = userMovieRelations.data.data;
 
-    // const userMovieList = movieList.filter((movie) => {
-    //   let isUserMovie = userMovieRelations.some(
-    //     userHas => userHas.movieId == movie._id,
-    //   );
-    //   return isUserMovie;
-    // });
+    let userMovieRelations = await axios({
+      url: `${process.env.API_URL}/api/user-movies?userId=${id}`,
+      headers: { Authorization: `Bearer ${token}` },
+      method: 'get',
+    });
+
+    userMovieRelations = userMovieRelations.data.data;
+
+    const userMovieList = movieList.filter(
+      (movie) => {
+        let isUserMovie = userMovieRelations.some(
+          userHas => userHas.movieId == movie._id,
+        );
+        return isUserMovie;
+      },
+    );
 
     initialState = {
       user: {
         email, name, id,
       },
-      myList: [],
+      myList: userMovieList,
       trends: movieList.filter(movie => movie.contentRating === 'PG' && movie._id),
       originals: movieList.filter(movie => movie.contentRating === 'G' && movie._id),
     };
@@ -237,7 +241,7 @@ app.post('/user-movies', async (req, res, next) => {
   }
 });
 
-// prueva para 2
+// prueva para borrar los favoritos
 app.post('/user-movies-delete/:userMovieId', async function (req, res, next) {
   const { userMovieId } = req.params;
   const { id: userId, token } = req.cookies;

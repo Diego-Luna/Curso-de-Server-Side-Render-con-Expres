@@ -78,30 +78,6 @@ export const loginUser = ({ email, password }, redirectUrl) => {
 };
 
 // ----> Seccciond de favoritos en backend <----
-// export const favoriteMovie = (userId, movie, cb) => (dispatch) => {
-//   const data = {
-//     userId,
-//     movieId: movie.id,
-//   };
-//   axios({
-//     url: '/user-movies',
-//     method: 'post',
-//     data,
-//   })
-//     .then(({ data }) => {
-//       const {
-//         data: { movieExist },
-//       } = data;
-
-//       const message = movieExist ? `${movie.title} ya esta en tus favoritos` : `${movie.title} fue agregada a tus favoritos`;
-
-//       !movieExist && dispatch(setFavorite(movie));
-
-//       cb(movieExist, message);
-//     })
-//     .catch((err) => dispatch(setError(err)));
-// };
-
 export const setFavoriteBackend = (payload) => {
   const { _id } = payload;
   return (dispatch) => {
@@ -116,41 +92,9 @@ export const setFavoriteBackend = (payload) => {
       // .then(dispatch(setFavoriteRequest(payload)))
       .catch(err => dispatch(setError(err)));
   };
-
-  // funciona
-  // return (dispatch) => {
-  //   axios({
-  //     url: '/user-movies',
-  //     method: 'POST',
-  //     data: {
-  //       movieId: payload._id,
-  //     },
-  //   })
-  //     .then(() => {
-  //       console.log('todo funcioan el los actions');
-  //     })
-  //     .catch(err => dispatch(setError(err)));
-  // };
-
-  // no se
-  // const { id } = payload;
-  // return (dispatch) => {
-  //   axios({
-  //     url: `/user-movies/${id}`,
-  //     method: 'post',
-  //     data: {
-  //       movieId: id,
-  //       token: document.cookie.token,
-  //     },
-  //   })
-  //     // .then(dispatch(setFavoriteRequest(payload)))
-  //     .catch(err => dispatch(setError(err)));
-  // };
 };
 
 export const deleteFavoriteBackend = (_id) => {
-
-  console.log(_id);
 
   return (dispatch) => {
     axios({

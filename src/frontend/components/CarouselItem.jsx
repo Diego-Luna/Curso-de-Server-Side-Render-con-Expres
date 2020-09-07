@@ -12,10 +12,10 @@ const CarouselItem = (props) => {
   const { _id, id, cover, title, year, contentRating, duration, isList } = props;
   const handleSetFavorite = () => {
     props.setFavorite({
-      _id, cover, title, year, contentRating, duration,
+      _id, id, cover, title, year, contentRating, duration,
     });
     props.setFavoriteBackend({
-      _id, cover, title, year, contentRating, duration,
+      _id, id, cover, title, year, contentRating, duration,
     });
   };
   const handleDeleteFavorite = (itemId) => {
