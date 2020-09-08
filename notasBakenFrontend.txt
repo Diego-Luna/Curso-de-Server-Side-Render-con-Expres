@@ -27,3 +27,21 @@ Instalamos dependencia para poder trabajar con async/await en nuestro proyecto
 - npm i @babel/polyfill
 
 /////////////////////////////////// iniciando ///////////////////////////////////
+
+/////////////////////////////////// pruevas con jest ///////////////////////////////////
+
+las pruevas son para garantisar la calidad del codigo:
+
+- npm install jest enzyme enzyme-adapter-react-16 -D
+
+-> jest, para pruevas unitarias
+-> enzyme, para elemtos para poder montar
+
+package.json:
+"jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/frontend/__test__/setupTest.js"
+    ]
+  }
+
+/////////////////////////////////// pruevas con jest ///////////////////////////////////
