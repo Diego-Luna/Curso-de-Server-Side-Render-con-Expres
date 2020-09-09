@@ -45,3 +45,23 @@ package.json:
   }
 
 /////////////////////////////////// pruevas con jest ///////////////////////////////////
+
+/////////////////////////////////// Implementando snapshots ///////////////////////////////////
+
+Instalamos el siguiente paquete.
+
+react-test-renderer
+
+- npm i react-test-renderer --save-dev
+Getting Started · Jest
+
+Los snapshots nos van a permitir que nuestra ui no cambie bruscamente. Que no se mande a producción con doble navbar, doble logo etc. Siempre avisando cuando hay algun cambio y fallando la prueba.
+
+Si necesitomos actualizar nuestro snapshot inicial debemos correr el comando.
+
+- npm install jest --global 
+y actualizamos los snapshots con:
+
+- jest --updateSnapshot
+
+/////////////////////////////////// Implementando snapshots ///////////////////////////////////

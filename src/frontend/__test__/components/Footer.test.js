@@ -1,5 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import { create } from 'react-test-renderer';
 import Footer from '../../components/Footer';
 
 // esto es para hacer suits para los test
@@ -16,6 +17,13 @@ describe('<Footer />', () => {
   // para hacer los test
   test('Footer haves 3 anchors', () => {
     expect(footer.find('a')).toHaveLength(3);
+  });
+
+  // snapshots
+  test('Footer snapshots ', () => {
+    const footer = create(<Footer />);
+    // para comparar dos JSONs usamos .toMatchSnapshot()
+    expect(footer.toJSON()).toMatchSnapshot();
   });
 
 });
