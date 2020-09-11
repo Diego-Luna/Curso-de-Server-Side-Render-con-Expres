@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node src/server/index.js",
     "build": "webpack-cli --config webpack.config.js",
     "start:dev": "nodemon src/server/index",
     "lint": "eslint src/frontend/ --ext .js --ext .jsx --fix",
@@ -81,5 +82,8 @@
       "\\.(jp|jpeg|png|gif)$": "<rootDir>/src/frontend/__mocks__/fileMock.js",
       "\\.(scss|css|sass)$": "<rootDir>/src/frontend/__mocks__/styleMock.js"
     }
+  },
+  "engines": {
+    "node": "12.16.x"
   }
 }
